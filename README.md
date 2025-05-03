@@ -155,19 +155,6 @@ We use Tailwind CSS with custom neumorphic design utilities:
    git push origin feature/AmazingFeature
    ```
 5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙋‍♂️ Need Help?
-
-- Check out the [documentation](docs/)
-- Create an [issue](https://github.com/yourusername/taskify/issues)
-- Read our [contributing guide](CONTRIBUTING.md)
-
 ---
 
 ## 🚀 Upcoming Features & Implementation Roadmap
