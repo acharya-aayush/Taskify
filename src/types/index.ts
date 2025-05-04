@@ -5,14 +5,23 @@ export interface Task {
   createdAt: string;
   dueDate?: string;
   priority?: 'low' | 'medium' | 'high';
-  recurring?: boolean;
-  recurringInterval?: 'daily' | 'weekly' | 'monthly';
-  // New reminder settings
+  
+  // New recurring settings
+  recurringSettings?: {
+    enabled: boolean;
+    frequency: 'daily' | 'weekly' | 'monthly' | 'custom';
+    customDays?: number; // For custom frequency (every X days)
+    lastReset?: string; // Last time this task was reset after completion
+  };
+  
+  // Keep reminder settings for future reference
   reminderSettings?: {
     enabled: boolean;
     intervals: number[]; // minutes before due date
+    customTimes?: string[]; // specific times in ISO format
+    sound?: 'default' | 'bell' | 'chime' | 'notification';
+    volume?: number; // volume between 0 and 1
   };
-  // New subtasks support
   subtasks?: {
     id: string;
     title: string;

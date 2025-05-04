@@ -81,6 +81,37 @@
   transition-property: none;
 }
 
+/* Drag and drop styling */
+body.is-dragging .cursor-grab:not(.opacity-70) {
+  @apply hover:bg-gray-50 dark:hover:bg-gray-800/50;
+}
+
+body.is-dragging {
+  cursor: grabbing;
+}
+
+.cursor-grab {
+  user-select: none;
+}
+
+.cursor-grab:active {
+  cursor: grabbing;
+}
+
+/* Task drag and drop specific styling */
+.dragging-ghost {
+  @apply ring-2 ring-primary-light dark:ring-primary-dark opacity-70;
+}
+
+.drag-over {
+  @apply bg-gray-50 dark:bg-gray-800/50 relative;
+}
+
+.drag-over::before {
+  content: '';
+  @apply absolute left-0 top-0 h-1 w-full bg-primary-light dark:bg-primary-dark rounded-full;
+}
+
 /* Custom animations */
 @keyframes float {
   0%, 100% {

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import Button from './Button';
 
@@ -37,11 +38,11 @@ const Modal: React.FC<ModalProps> = ({
     lg: 'max-w-lg'
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+  const modalContent = (
+    <div className="fixed inset-0 z-[9999] isolate flex items-center justify-center p-4">
       {/* Backdrop with blur */}
       <div 
-        className="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity duration-300"
+        className="absolute inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm transition-opacity duration-300 -z-10"
         onClick={onClose}
       />
       
@@ -76,6 +77,9 @@ const Modal: React.FC<ModalProps> = ({
       </div>
     </div>
   );
+
+  // Render modal at the root level using portal
+  return createPortal(modalContent, document.body);
 };
 
 export default Modal;

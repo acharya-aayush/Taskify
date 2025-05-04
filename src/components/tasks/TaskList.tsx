@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
 import TaskItem from './TaskItem';
 import Button from '../ui/Button';
 import { Task } from '../../types';
 import { useTaskAnimation } from '../../hooks/useTaskAnimation';
+import useTasks from '../../hooks/useTasks';
+import DraggableTaskList from './DraggableTaskList';
+
+// Slapped together a basic task list with drag-n-drop
+// If it breaks, that's your problem now, good luck with that
 
 interface TaskListProps {
   tasks: Task[];
@@ -13,13 +18,37 @@ interface TaskListProps {
 }
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onEdit }) => {
-  const { animatingTasks, isRemoving } = useTaskAnimation(tasks);
-  const completedTasks = tasks.filter(task => task.completed);
+  const { animatingTaskId, animatingTasks, isRemoving, taskItemVariants, completedTaskMotion } = useTaskAnimation(tasks);
   
-  const handleClearCompleted = () => {
+  // Properly extract all data we need from useTasks at component level
+  const { reorderTask, tasks: allTasks } = useTasks();
+  
+  // Memoize the completed tasks calculation to avoid recalculating on every render
+  const completedTasks = useMemo(() => tasks.filter(task => task.completed), [tasks]);
+  
+  // Memoize the clear completed handler to maintain referential equality
+  const handleClearCompleted = useCallback(() => {
     completedTasks.forEach(task => onDelete(task.id));
-  };
+  }, [completedTasks, onDelete]);
 
+  // Memoize the reorder handler to avoid recreating on every render
+  const handleReorder = useCallback((sourceIndex: number, targetIndex: number) => {
+    console.debug(`[TaskList] Moving task from position ${sourceIndex} to ${targetIndex}`);
+      
+    // Map indices from filtered tasks to global task array
+    const sourceTask = tasks[sourceIndex];
+    const targetTask = tasks[targetIndex];
+    
+    if (sourceTask && targetTask) {
+      const sourceGlobalIndex = allTasks.findIndex(t => t.id === sourceTask.id);
+      const targetGlobalIndex = allTasks.findIndex(t => t.id === targetTask.id);
+      
+      if (sourceGlobalIndex !== -1 && targetGlobalIndex !== -1) {
+        reorderTask(sourceGlobalIndex, targetGlobalIndex);
+      }
+    }
+  }, [tasks, allTasks, reorderTask]);
+  
   // Show empty state if no tasks
   if (tasks.length === 0) {
     return (
@@ -37,6 +66,22 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onEdit }
     );
   }
 
+  // Memoize the task rendering function to avoid recreating function on every render
+  const renderTask = useCallback((task: Task, _index: number, { dragProps }: any) => (
+    <div {...dragProps}>
+      <TaskItem
+        task={task}
+        onToggle={() => onToggle(task.id)}
+        onDelete={() => onDelete(task.id)}
+        onEdit={(updates) => onEdit(task.id, updates)}
+        isAnimating={animatingTaskId === task.id}
+        isRemoving={isRemoving && animatingTaskId === task.id}
+        variants={taskItemVariants}
+        completedVariants={completedTaskMotion}
+      />
+    </div>
+  ), [onToggle, onDelete, onEdit, animatingTaskId, isRemoving, taskItemVariants, completedTaskMotion]);
+
   return (
     <div className="mb-6">
       <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
@@ -50,49 +95,27 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete, onEdit }
             </span>
           </div>
         </div>
-        
+
         {completedTasks.length > 0 && (
           <Button
-            variant="neutral"
-            size="sm"
             onClick={handleClearCompleted}
-            className="p-2 rounded-lg text-sm text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 group transition-colors"
+            variant="ghost"
+            size="sm"
+            className="text-sm"
           >
-            <span className="flex items-center gap-2">
-              Clear completed
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-100 dark:bg-dark-400 text-xs group-hover:bg-red-100 dark:group-hover:bg-red-900/30 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
-                {completedTasks.length}
-              </span>
-            </span>
+            Clear completed
           </Button>
         )}
       </div>
-      
-      <div className="space-y-3">
-        {animatingTasks.map((task, index) => (
-          <div
-            key={task.id}
-            className={`transition-all duration-300 ${
-              isRemoving(task.id) 
-                ? 'opacity-0 scale-95 -translate-x-full' 
-                : 'opacity-100 scale-100 translate-x-0'
-            }`}
-            style={{
-              animationDelay: `${index * 50}ms`,
-              transform: `translateY(${index * 2}px)`
-            }}
-          >
-            <TaskItem
-              task={task}
-              onToggle={onToggle}
-              onDelete={onDelete}
-              onEdit={onEdit}
-            />
-          </div>
-        ))}
-      </div>
+
+      <DraggableTaskList 
+        tasks={tasks}
+        onReorder={handleReorder}
+        renderItem={renderTask}
+      />
     </div>
   );
-};
+}
 
-export default TaskList;
+// Wrap with memo to prevent unnecessary re-renders when props haven't changed
+export default React.memo(TaskList);

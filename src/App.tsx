@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sun, Moon, Download } from 'lucide-react';
 import TaskForm from './components/tasks/TaskForm';
 import TaskList from './components/tasks/TaskList';
@@ -10,7 +10,7 @@ import QuotePopup from './components/QuotePopup';
 import useTasks from './hooks/useTasks';
 import useTheme from './hooks/useTheme';
 import useLocalStorage from './hooks/useLocalStorage';
-import { EasterEggType, AppSettings } from './types';
+import { EasterEggType, AppSettings, Task } from './types';
 
 const initialSettings: AppSettings = {
   darkMode: false,
@@ -54,6 +54,32 @@ function App() {
     setActiveEasterEgg(null);
   };
   
+  // Enhanced task addition handler with recurring settings support
+  const handleAddTask = (
+    title: string, 
+    dueDate?: string, 
+    priority?: 'low' | 'medium' | 'high',
+    recurringSettings?: Task['recurringSettings']
+  ) => {
+    addTask(title, dueDate, priority);
+    
+    // If recurring settings are provided and we have a task ID, update the task
+    if (recurringSettings?.enabled) {
+      // We need to find the newly added task
+      setTimeout(() => {
+        const newTask = filteredTasks.find(task => 
+          task.title === title && 
+          task.dueDate === dueDate && 
+          task.priority === priority
+        );
+        
+        if (newTask) {
+          editTask(newTask.id, { recurringSettings });
+        }
+      }, 100);
+    }
+  };
+  
   // Count completed tasks
   const completedCount = filteredTasks.filter(task => task.completed).length;
   
@@ -75,7 +101,7 @@ function App() {
   }, []);
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${effectiveTheme === 'dark' ? 'dark bg-dark' : 'bg-gray-100'}`}>
+    <div className={`min-h-screen p-4 sm:p-6 transition-colors ${effectiveTheme === 'dark' ? 'dark bg-dark-200 text-white' : 'bg-gray-50 text-gray-900'}`}>
       <div className="container mx-auto py-8 px-4 max-w-2xl">
         {/* Header with increased depth */}
         <header className="mb-8 p-6 rounded-2xl bg-white dark:bg-dark-200 shadow-[16px_16px_32px_rgba(0,0,0,0.12),-16px_-16px_32px_rgba(255,255,255,1)] dark:shadow-dark-neu-raised">
@@ -98,8 +124,9 @@ function App() {
                 size="sm" 
                 className="text-xs bg-gray-50 hover:bg-gray-100 dark:bg-dark-200" 
                 onClick={exportTasks}
+                aria-label="Export tasks"
               >
-                <Download size={14} className="mr-1" />
+                <Download size={14} className="mr-1" aria-hidden="true" />
                 Export
               </Button>
             </div>
@@ -120,7 +147,7 @@ function App() {
             </div>
             
             {/* Task form with increased spacing */}
-            <TaskForm onAddTask={addTask} onTriggerEasterEgg={handleEasterEgg} isEmpty={filteredTasks.length === 0} />
+            <TaskForm onAddTask={handleAddTask} onTriggerEasterEgg={handleEasterEgg} isEmpty={filteredTasks.length === 0} />
           </div>
           
           {/* Progress bar with proper spacing */}
