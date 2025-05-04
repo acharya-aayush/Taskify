@@ -1,144 +1,102 @@
-# Taskify Changelog 🚀
+Taskify Changelog
+Tbh IDK why GPT’s pushing for this detailed changelog yrr... Anyway, here’s what I’ve randomly added to the project. No one’s gonna read it, so... whatever.
 
-All notable changes to the Taskify application will be documented in this file, following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) principles.
+[v1.3.0] - 2025-05-05
+Optimized
+Disabled recurring tasks because, surprise surprise, it broke everything.
 
-## [v1.1.0] - 2025-05-02
+Infinite loops? Not the flex I thought it was.
 
-### ✨ Enhancement
-- Implemented refined glassmorphic UI elements throughout the application
-- Enhanced visual hierarchy with neumorphic design patterns
-- Improved dark mode contrast for better accessibility
-- Added subtle transitions and micro-interactions
-- Optimized component rendering performance
+Maybe one day I’ll fix it. Or maybe not. Don't hold your breath.
 
-### 🎨 Visual Updates
-- Refined shadows and borders for better depth perception
-- Enhanced input field and button aesthetics
-- Optimized color palette for dark mode
-- Improved component transitions and animations
+But yeah, it was intentional... totally.
 
-### 🛠️ Technical Updates
-- Refactored UI components for better reusability
-- Optimized state management for smoother interactions
-- Enhanced TypeScript type definitions
-- Improved code organization and documentation
+Performance
+Used useMemo everywhere because apparently good devs do that.
 
-### 📝 Files Updated
-- `App.tsx`: Enhanced container styling
-- `TaskForm.tsx`: Improved form layout and interactions
-- `TaskItem.tsx`: Refined task card design
-- `TaskFilter.tsx`: Enhanced filter section UI
-- Various component style optimizations
+App’s like... 0.001ms faster. Don’t expect miracles.
 
-## [v1.0.0] - 2025-05-15
+Cached tasks so your potato PC might handle like, 10+ tasks.
 
-### 🎉 Features
-- Initial release with core task management functionality
-- Modern neumorphic design system implementation
-- Local storage integration for task persistence
-- Comprehensive search and filtering capabilities
-- Dark mode support with theme persistence
-- Hidden easter eggs for user delight
-- Progress tracking and statistics
-- Responsive design across all devices
-- Task prioritization system
-- Drag-and-drop task reordering
-- Recurring tasks functionality
-- Interactive tooltips and feedback
+useCallback on EVERYTHING because... some tutorial said to, okay?
 
-### 🧩 Components
-- Task management interface
-- Priority system with visual indicators
-- Due date handling with status display
-- Progress tracking visualization
-- Theme switcher with smooth transitions
-- Export functionality for task backup
+Fixed
+That “deleteTask not defined” error? Yeah, still clueless how that happened.
 
-## [v0.9.0] - 2025-05-10
+Fixed by copy-pasting the same code again.
 
-### ✨ Added
-- Due date and priority settings for tasks
-- Feature checklist component
-- Task completion statistics
-- Fun easter eggs:
-  - Matrix animation effect
-  - CLI terminal interface
-  - Tic Tac Toe game
+Classic. Restart it, done.
 
-## [v0.5.0] - 2025-05-05
+Technical Updates
+Optimized the LocalStorage hook. No one cares.
 
-### 🚀 Initial Features
-- Base task storage system
-- Task filtering (All/Active/Completed)
-- Initial neumorphic design foundation
-- JSON export capability
+Cross-tab syncing, like anyone's opening this on two tabs.
 
-## [v0.1.0] - 2025-05-01
+Better state handling, but... like, nobody will notice.
 
-### 🎯 Project Setup
-- Initial project scaffolding
-- React + TypeScript configuration
-- Tailwind CSS integration
-- Development environment setup
+Less console spam—finally, you're welcome.
 
----
+Memory
+Made it “memory efficient” or whatever that means.
 
-## [Upcoming v2.0.0] - 2025-Q3
+Chrome tab now uses 99% RAM instead of 100%. Progress, right?
 
-### 🎯 Major Feature Updates Planned
+Fewer re-renders. Bet you can't tell the difference.
 
-#### Phase 1 - Core Functionality Enhancement
-- ⏰ Task Reminders & Notifications
-  - Browser notification system
-  - Customizable reminder intervals
-  - Persistent notifications across sessions
+Added more refs so things don't get recreated for no reason.
 
-- 🔄 Recurring Tasks
-  - Daily/Weekly/Monthly/Custom recurrence patterns
-  - Smart task regeneration
-  - Recurrence rule management
+Files Updated
+useTasks.ts: Overhauled (doesn’t look any different tho)
 
-- ✅ Subtasks & Checklists
-  - Nested task support
-  - Progress tracking for subtasks
-  - Collapsible subtask views
+useTaskFilters.ts: UseMemo—because I had to.
 
-#### Phase 2 - Organization & Visualization
-- 🏷️ Task Categories & Tags
-  - Custom category creation
-  - Multi-tag support
-  - Tag-based filtering and grouping
+useLocalStorage.ts: Added cross-tab syncing. Who asked for this?
 
-- 📅 Calendar Integration
-  - Month/Week/Day views
-  - Task scheduling interface
-  - Drag-and-drop date assignment
+useRecurringTasks.ts: Disabled it. Too much work.
 
-- 📎 Task Attachments
-  - File/image upload support
-  - Link attachment system
-  - Attachment preview capabilities
+[v1.2.0] - 2025-05-04
+Added
+Recurring tasks because I clearly didn’t know when to stop.
 
-#### Phase 3 - Productivity Tools
-- 📊 Statistics & Insights
-  - Productivity tracking
-  - Completion rate analytics
-  - Progress visualization
-  - Achievement system
+Tasks reset daily/weekly/monthly—IDK, just pick one.
 
-- 🎯 Task Prioritization Matrix
-  - Eisenhower Matrix implementation
-  - Visual priority mapping
-  - Priority-based sorting
+Subtasks reset too because, sure, why not add more chaos?
 
-- ⏱️ Focus Mode & Pomodoro
-  - Customizable timer presets
-  - Work/break cycle management
-  - Focus mode UI
-  - Session statistics
+Removed
+Got rid of the reminder bell thing. Honestly, I don’t care about notifications.
 
----
-📝 **Note**: This changelog follows semantic versioning principles. Each version should:
-- MAJOR version for incompatible API changes
-- MINOR version for backwards-compatible functionality
-- PATCH version for backwards-compatible bug fixes
+Backend code’s still chilling in case I wanna bring it back. Spoiler: I won’t.
+
+Visual Updates
+Shadows. Borders. Inputs looking fresher. Because UI matters.
+
+Fixed dark mode colors so I don't burn my retinas anymore.
+
+Technical Updates
+Recurring settings component that I spent way too much time on.
+
+Fixed state management, it was all over the place.
+
+Typescript, typescript, typescript... I just do what they say.
+
+[v1.0.0] - 2025-05-15
+Features
+The generic todo app. We’ve all seen it a million times.
+
+Neumorphic design, obviously. For my crush, who ghosted.
+
+Local storage so your tasks don’t just disappear (thanks, I guess).
+
+Dark mode. Because I’m not a savage.
+
+Easter eggs I wasted too much time on.
+
+Stats, charts, progress bars—because why not?
+
+[Upcoming v2.0.0] - 2025-Q3
+Future Features (I’ll probably never get to them):
+Task reminders (pfft, like anyone wants that).
+
+Subtasks, nested tasks, checklists—IDK, some organizational stuff.
+
+Calendar view (because nobody asked for that level of complexity).
