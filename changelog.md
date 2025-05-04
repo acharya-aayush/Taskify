@@ -99,4 +99,8 @@ Task reminders (pfft, like anyone wants that).
 
 Subtasks, nested tasks, checklists—IDK, some organizational stuff.
 
+<<<<<<< HEAD
 Calendar view (because nobody asked for that level of complexity).
+=======
+Calendar view (because nobody asked for that level of complexity).
+>>>>>>> 0776477531df880c9b60711ea4e30bfca35d7d16
